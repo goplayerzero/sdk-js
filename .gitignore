@@ -1,0 +1,57 @@
+# Compiled class file
+build/
+node_modules/
+package-lock.json
+yarn.lock
+dist/
+.next/
+.scully/
+scully-routes.json
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDE Files
+/.idea
+/caches
+/daemon
+/native
+/wrapper
+*.iml
+.project
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+
+**/__snapshots__
+
+*/.idea/*
+*.pyc
+*.gz
+
+# System Files
+**/.DS_Store
+*.db
+*.swp
+npm-debug.log

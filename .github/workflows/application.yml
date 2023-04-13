@@ -1,0 +1,56 @@
+name: CI
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    outputs:
+      branch_name: ${{ steps.build.outputs.branch }}
+      app_version: ${{ steps.build.outputs.app_version }}
+    env:
+      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v3.2.0
+        with:
+          node-version: 16
+
+      - name: Setup Registry
+        env:
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+        id: registry
+        run: echo "$NPM_REGISTRY" > $HOME/.npmrc
+
+      - name: Version
+        id: version
+        run: |
+          export APP_VERSION=$(grep version package.json | sed 's/.*"version": "\(.*\)".*/\1/')
+          export BRANCH_VERSION=$(echo ${GITHUB_REF#refs/heads/})
+          export BRANCH_VERSION=$(echo ${BRANCH_VERSION#refs/tags/})
+          echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH_VERSION" >> $GITHUB_OUTPUT
+          npm install
+          if [[ ! $GITHUB_REF = refs/tags/* ]]; then
+            npm version "$APP_VERSION$(date +%Y%m%d%H%M%S)"
+            npm version prerelease --preid=$BRANCH_VERSION
+          else
+            npm version "${BRANCH_VERSION#v}"
+          fi
+
+      - name: Build
+        id: build
+        run: npm run build
+
+      - name: Publish Artifacts
+        id: publish
+        run: |
+          npm publish
+          if [[ ! $GITHUB_REF = refs/tags/* ]]; then
+            npm publish --@goplayerzero:registry=https://registry.npmjs.org/
+          fi
