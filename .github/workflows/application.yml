@@ -48,6 +48,6 @@ jobs:
         id: publish
         run: |
           npm publish
-          if [[ ! $GITHUB_REF = refs/tags/* ]]; then
+          if [[ $GITHUB_REF = refs/tags/* ]]; then
             npm publish --@goplayerzero:registry=https://registry.npmjs.org/
           fi
