@@ -30,17 +30,14 @@ jobs:
       - name: Version
         id: version
         run: |
-          export APP_VERSION=$(grep version package.json | sed 's/.*"version": "\(.*\)".*/\1/')
+          export APP_VERSION=$(grep version package.json | sed 's/.*"version": "\(.*\)".*/\1/' | sed 's/-.*//')
           export BRANCH_VERSION=$(echo ${GITHUB_REF#refs/heads/})
           export BRANCH_VERSION=$(echo ${BRANCH_VERSION#refs/tags/})
-          echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
-          echo "branch=$BRANCH_VERSION" >> $GITHUB_OUTPUT
           npm install
           if [[ ! $GITHUB_REF = refs/tags/* ]]; then
-            npm version "$APP_VERSION$(date +%Y%m%d%H%M%S)"
-            npm version prerelease --preid=$BRANCH_VERSION
+            sed -i "s/\"version\": \".*\"/\"version\": \"$APP_VERSION-$BRANCH_VERSION.$(date +%Y%m%d%H%M%S)\"/" package.json
           else
-            npm version "${BRANCH_VERSION#v}"
+            sed -i "s/\"version\": \".*\"/\"version\": \"${BRANCH_VERSION#v}\"/" package.json
           fi
 
       - name: Build
