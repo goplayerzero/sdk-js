@@ -69,7 +69,7 @@ export class PzApi {
 
     this.identification = (typeof id === 'object')
       ? { actors: id, properties: metadata }
-      : { actors: { User: id }, properties: metadata };
+      : { actors: { UserId: id }, properties: metadata };
   }
 
   // TODO: Function to update identify metadata; removing any null or undefined values as well
