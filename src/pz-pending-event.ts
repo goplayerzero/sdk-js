@@ -33,7 +33,7 @@ export class PzPendingEvent {
 
     this.identity = (typeof id === 'object')
       ? { actors: id, properties: { ...metadata } }
-      : { actors: { user: id }, properties: { ...metadata } };
+      : { actors: { UserId: id }, properties: { ...metadata } };
     return this;
   }
 
