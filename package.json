@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0-snapshot.0",
+  "version": "0.5.0",
   "name": "@goplayerzero/js-api",
   "description": "The official PlayerZero JavaScript SDK",
   "author": {
@@ -21,9 +21,7 @@
     "clean": "npx rimraf dist package-lock.json",
     "watch": "rollup -w -c"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-replace": "^5.0.2",
