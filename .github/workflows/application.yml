@@ -47,6 +47,8 @@ jobs:
       - name: Publish Artifacts
         id: publish
         run: |
+          cp package.json README.md dist
+          cd dist
           npm publish
           if [[ $GITHUB_REF = refs/tags/* ]]; then
             npm publish --@goplayerzero:registry=https://registry.npmjs.org/
