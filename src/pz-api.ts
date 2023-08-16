@@ -120,7 +120,7 @@ export class PzApi {
     else message = reason;
 
     if (message === undefined) {
-      if (error !== undefined) message = error.name ?? error.stack?.split('\n')?.pop();
+      if (error !== undefined) message = error.message ?? error.stack?.split('\n')?.pop();
       else return;
       if (message === undefined) return;
     }
