@@ -1,5 +1,5 @@
 export class PzApi {
-  private static SPAN_COUNTER: number = Date.now();
+  private static SPAN_COUNTER: number = Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
   private static readonly CHECKS = new RegExp(
     '\\b\\d{3}-?\\d{2}-?\\d{4}\\b' // SSN
     + '|\\b(?:(?:\\d{3,4})[ -]?){4}\\b' // CC
@@ -30,7 +30,7 @@ export class PzApi {
     this.prod = options?.prod ?? false;
     this.batchEventsSize = options?.batchEventsSize ?? 100;
     this.debounceInMs = options?.debounceInMs ?? 2000;
-    this.endpoint = `${options?.endpoint ?? 'https://sdk.playerzero.app'}/v2`;
+    this.endpoint = `${options?.endpoint ?? 'https://sdk.playerzero.app'}`;
     this.queuedEvent = options?.queuedEvent;
     this.dequeuedEvents = options?.dequeuedEvents;
 
@@ -146,7 +146,7 @@ export class PzApi {
     }
     if (payload.length === 0) return;
 
-    fetch(`${this.endpoint}/${type.toLowerCase()}s`, {
+    fetch(`${this.endpoint}/v2/${type.toLowerCase()}s`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -194,11 +194,11 @@ export type PzInsightType = 'Track' | 'Log' | 'Span';
 export type PzLogType = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
 
 export interface PzInsight {
+  readonly id?: string;
   readonly properties?: Record<string, string>;
 }
 
 export interface PzTrackInsight extends PzInsight {
-  readonly id?: string;
   readonly identity: PzUserIdentity;
   readonly value: string;
   readonly type?: string;
