@@ -69,7 +69,7 @@ export class PzApi {
       type: options?.type,
       ts: options?.ts ?? new Date(),
       // TODO: properties? Do external clients use this? web-sdk need this?
-      attributes: { ...this.currentIdentificationMetadata, ...options?.metadata },
+      attributes: { ...this.currentIdentificationMetadata, ...options?.attributes },
     } as PzTrackInsight);
   }
 
@@ -101,7 +101,7 @@ export class PzApi {
       value: this.privatizeText(logMsg),
       ts: options?.ts || new Date(),
       properties,
-      attributes: { ...this.currentIdentificationMetadata, ...options?.metadata },
+      attributes: { ...this.currentIdentificationMetadata, ...options?.attributes },
     } as PzLogInsight);
   }
 
@@ -210,7 +210,8 @@ export interface PzTrackOptions {
   readonly id?: string;
   readonly type?: string;
   readonly ts?: Date; // defaults to new Date()
-  readonly metadata?: Record<string, any>;
+  readonly properties?: Record<string, string>;
+  readonly attributes?: Record<string, any>;
 }
 
 export interface PzLogInsight extends PzInsight {
@@ -229,7 +230,8 @@ export interface PzLogOptions {
   readonly ts?: Date; // defaults to new Date()
   readonly fp?: string;
   readonly exception?: { message?: string, type?: string, stacktrace?: string };
-  readonly metadata?: Record<string, any>;
+  readonly properties?: Record<string, string>;
+  readonly attributes?: Record<string, any>;
 }
 
 export interface PzSpanInsight extends PzInsight {
@@ -251,6 +253,7 @@ export interface PzSpanOptions {
   readonly end?: Date;
   readonly error?: string;
   readonly events?: PzSpanEvent[];
+  readonly properties?: Record<string, string>;
 }
 
 export interface PzUserIdentity {
