@@ -119,6 +119,9 @@ export class PzApi {
       start,
       end,
       error: options?.error,
+      events: options?.events,
+      properties: options?.properties,
+      attributes: options?.attributes,
     } as PzSpanInsight);
   }
 
@@ -166,15 +169,15 @@ export class PzApi {
   }
 
   private transformId(rawId: string, size: 8 | 16): string {
-    let id: string = '';
-    if (rawId.length === size) id = rawId;
-    else if (rawId.length === size * 1.5) id = atob(rawId);
-    else if (rawId.length === size * 2) {
-      const hex = rawId.replace('-', '');
-      for (let i = 0; i < hex.length; i += 2)
-        id += String.fromCharCode(parseInt(hex.substring(i, i + 2), 16));
-    } else throw new Error(` Invalid id ${rawId}`);
-    return id;
+    // let id: string = '';
+    // if (rawId.length === size) id = rawId;
+    // else if (rawId.length === size * 1.5) id = atob(rawId);
+    // else if (rawId.length === size * 2) {
+    //   const hex = rawId.replace('-', '');
+    //   for (let i = 0; i < hex.length; i += 2)
+    //     id += String.fromCharCode(parseInt(hex.substring(i, i + 2), 16));
+    // } else throw new Error(` Invalid id ${rawId}`);
+    return rawId;
   }
 }
 
@@ -254,6 +257,7 @@ export interface PzSpanOptions {
   readonly error?: string;
   readonly events?: PzSpanEvent[];
   readonly properties?: Record<string, string>;
+  readonly attributes?: Record<string, any>;
 }
 
 export interface PzUserIdentity {
