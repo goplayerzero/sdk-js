@@ -95,11 +95,13 @@ export class PzApi {
     else if (error?.stack) properties['exception.stacktrace'] = error.stack;
 
     this.publishInsights('Log', {
+      id: options?.id,
       traceId: options?.traceId,
       spanId: options?.spanId,
       type,
       value: this.privatizeText(logMsg),
       ts: options?.ts || new Date(),
+      qty: options?.qty,
       properties,
       attributes: { ...this.currentIdentificationMetadata, ...options?.attributes },
     } as PzLogInsight);
@@ -223,6 +225,7 @@ export interface PzLogInsight extends PzInsight {
   readonly type: PzLogType; // defaults to 'TRACE'
   readonly value: string;
   readonly ts: Date;
+  readonly qty?: number;
   readonly attributes?: Record<string, any>;
 }
 
@@ -232,6 +235,7 @@ export interface PzLogOptions {
   readonly spanId?: string;
   readonly ts?: Date; // defaults to new Date()
   readonly fp?: string;
+  readonly qty?: number;
   readonly exception?: { message?: string, type?: string, stacktrace?: string };
   readonly properties?: Record<string, string>;
   readonly attributes?: Record<string, any>;
