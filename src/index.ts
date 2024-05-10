@@ -79,10 +79,6 @@ export class PzApi {
     const logMsg = (error) ? error.message : message as string;
     const identity = { ...this.currentIdentification };
 
-    if (identity?.userId) properties["identity.userId"] = identity.userId;
-    if (identity?.email) properties["identity.email"] = identity.email;
-    if (identity?.anonId) properties["identity.anonId"] = identity.anonId;
-
     if (options?.fp) properties['fp'] = options.fp;
 
     if (options?.exception?.message) properties['exception.message'] = options.exception.message;
@@ -93,6 +89,13 @@ export class PzApi {
 
     if (options?.exception?.stacktrace) properties['exception.stacktrace'] = options.exception.stacktrace;
     else if (error?.stack) properties['exception.stacktrace'] = error.stack;
+
+    if (options?.traceId === undefined) {
+      Object.assign(properties, this.currentIdentificationMetadata);
+      if (identity?.userId) properties["identity.userId"] = identity.userId;
+      if (identity?.email) properties["identity.email"] = identity.email;
+      if (identity?.anonId) properties["identity.anonId"] = identity.anonId;
+    }
 
     this.publishInsights('Log', {
       id: options?.id,
