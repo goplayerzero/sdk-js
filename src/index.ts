@@ -68,8 +68,8 @@ export class PzApi {
       value: name,
       type: options?.type,
       ts: options?.ts ?? new Date(),
-      // TODO: properties? Do external clients use this? web-sdk need this?
-      attributes: { ...this.currentIdentificationMetadata, ...options?.attributes },
+      properties: { ...options?.properties, ...this.currentIdentificationMetadata },
+      attributes: options?.attributes,
     } as PzTrackInsight);
   }
 
@@ -102,8 +102,8 @@ export class PzApi {
       value: this.privatizeText(logMsg),
       ts: options?.ts || new Date(),
       qty: options?.qty,
-      properties,
-      attributes: { ...this.currentIdentificationMetadata, ...options?.attributes },
+      properties: { ...options?.properties, ...properties },
+      attributes: { ...options?.attributes },
     } as PzLogInsight);
   }
 
