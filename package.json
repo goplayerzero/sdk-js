@@ -1,5 +1,5 @@
 {
-  "version": "0.5.3-snapshot.0",
+  "version": "0.6.0",
   "name": "@goplayerzero/js-api",
   "description": "The official PlayerZero JavaScript SDK",
   "author": {
