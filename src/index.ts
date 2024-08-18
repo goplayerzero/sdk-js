@@ -24,7 +24,7 @@ export class PzApi {
 
   constructor(
     private readonly apiToken: string,
-    options: PzInsightOptions,
+    options?: PzInsightOptions,
   ) {
     this.dataset = options?.dataset ?? 'default';
     this.prod = options?.prod ?? false;
@@ -155,6 +155,7 @@ export class PzApi {
     if (payload.length === 0) return;
 
     fetch(`${this.endpoint}/v2/${type.toLowerCase()}s`, {
+      keepalive: true,
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
