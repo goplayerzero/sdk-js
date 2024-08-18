@@ -130,6 +130,12 @@ export class PzApi {
     } as PzSpanInsight);
   }
 
+  flush() {
+    this.flushQ('Track');
+    this.flushQ('Span');
+    this.flushQ('Log');
+  }
+
   private publishInsights(type: PzInsightType, data: PzInsight | PzInsight[]): void {
     if (!Array.isArray(data)) data = [data];
     if (data.length > 0) {
