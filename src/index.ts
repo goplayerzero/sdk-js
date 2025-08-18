@@ -31,6 +31,7 @@ export class PzApi {
     this.batchEventsSize = options?.batchEventsSize ?? 100;
     this.debounceInMs = options?.debounceInMs ?? 2000;
     this.endpoint = `${options?.endpoint ?? 'https://sdk.playerzero.app'}`;
+    this.privacy = options?.privacy;
     this.queuedEvent = options?.queuedEvent;
     this.dequeuedEvents = options?.dequeuedEvents;
 
@@ -169,7 +170,7 @@ export class PzApi {
         'X-PzSdk': `JavaScript __PlayerZeroSdkVersion__`,
         'X-PzProd': `${this.prod}`,
         'X-PzBucket': `${this.dataset}`,
-      }
+      },
     }).catch(() => []).then(() => this.dequeuedEvents?.(type, payload));
   }
 
